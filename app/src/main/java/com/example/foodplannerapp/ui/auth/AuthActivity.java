@@ -1,4 +1,4 @@
-package com.example.foodplannerapp;
+package com.example.foodplannerapp.ui.auth;
 
 import android.os.Bundle;
 
@@ -7,6 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.example.foodplannerapp.R;
+import com.example.foodplannerapp.ui.auth.login.LoginFragment;
 
 public class AuthActivity extends AppCompatActivity {
 
