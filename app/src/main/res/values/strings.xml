@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">FoodPlannerApp</string>
+
+    <!--strings for onBoarding screens-->
+    <string name="first_slide_title">Welcome</string>
+    <string name="second_slide_title">Personalize Your Plan</string>
+    <string name="third_slide_title">progress</string>
+
+    <string name="first_slide_desc">Welcome to food planner app, your culinary companion. Let us start on a voyage of tastes and convenience together.</string>
+    <string name="second_slide_desc">Create your own meals plan. Take initiative and create customized meals based on your own preferences.</string>
+    <string name="third_slide_desc">track your progress,achieve your goal</string>
+
+    <string name="btn_skip">skip</string>
+    <string name="btn_next">next</string>
+    <string name="lets_get_started">lets get started</string>
+
 </resources>
