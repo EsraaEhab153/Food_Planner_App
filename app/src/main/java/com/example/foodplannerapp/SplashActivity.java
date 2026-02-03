@@ -11,7 +11,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.airbnb.lottie.LottieAnimationView;
+import com.example.foodplannerapp.ui.auth.AuthActivity;
 
 
 public class SplashActivity extends AppCompatActivity {
