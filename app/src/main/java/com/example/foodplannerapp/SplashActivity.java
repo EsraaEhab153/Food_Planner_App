@@ -41,7 +41,7 @@ public class SplashActivity extends AppCompatActivity {
                 runnable.run();
             }
             else{
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                Intent intent = new Intent(SplashActivity.this, AuthActivity.class);
                 startActivity(intent);
                 finish();
             }

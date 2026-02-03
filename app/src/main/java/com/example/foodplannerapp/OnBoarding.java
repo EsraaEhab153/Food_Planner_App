@@ -23,13 +23,14 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.foodplannerapp.HelperClasses.SliderAdapter;
 
 public class OnBoarding extends AppCompatActivity {
-  ViewPager2 viewPager2;
-  LinearLayout dots;
-  SliderAdapter sliderAdapter;
-  TextView [] dotsIndicator;
-  Button letsGetStarted;
-  Animation animation;
-   Button btnSkip;
+    ViewPager2 viewPager2;
+    LinearLayout dots;
+    SliderAdapter sliderAdapter;
+    TextView[] dotsIndicator;
+    Button letsGetStarted;
+    Animation animation;
+    Button btnSkip;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,13 +49,19 @@ public class OnBoarding extends AppCompatActivity {
             startActivity(new Intent(OnBoarding.this, MainActivity.class));
             finish();
         });
-
+        letsGetStarted.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(OnBoarding.this, AuthActivity.class));
+                finish();
+            }
+        });
 
         sliderAdapter = new SliderAdapter(this);
         viewPager2.setAdapter(sliderAdapter);
         addDots(0);
 
-         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -66,12 +73,12 @@ public class OnBoarding extends AppCompatActivity {
                 super.onPageSelected(position);
                 addDots(position);
 
-                if(position == 0){
+                if (position == 0) {
                     letsGetStarted.setVisibility(View.INVISIBLE);
-                }else if(position == 1){
+                } else if (position == 1) {
                     letsGetStarted.setVisibility(View.INVISIBLE);
-                }else{
-                    animation = AnimationUtils.loadAnimation(OnBoarding.this,R.anim.bottom_anim);
+                } else {
+                    animation = AnimationUtils.loadAnimation(OnBoarding.this, R.anim.bottom_anim);
                     letsGetStarted.setAnimation(animation);
                     letsGetStarted.setVisibility(View.VISIBLE);
                 }
@@ -79,14 +86,14 @@ public class OnBoarding extends AppCompatActivity {
         });
     }
 
-    public void next(View view){
-        viewPager2.setCurrentItem(viewPager2.getCurrentItem()+1);
+    public void next(View view) {
+        viewPager2.setCurrentItem(viewPager2.getCurrentItem() + 1);
     }
 
-    private void addDots(int position){
+    private void addDots(int position) {
         dotsIndicator = new TextView[3];
         dots.removeAllViews();
-        for(int i = 0 ;i<dotsIndicator.length;i++){
+        for (int i = 0; i < dotsIndicator.length; i++) {
             dotsIndicator[i] = new TextView(this);
             dotsIndicator[i].setText(Html.fromHtml("&#8226;"));
             dotsIndicator[i].setTextSize(35);
@@ -94,7 +101,7 @@ public class OnBoarding extends AppCompatActivity {
 
             dots.addView(dotsIndicator[i]);
         }
-        if(dotsIndicator.length>0){
+        if (dotsIndicator.length > 0) {
             dotsIndicator[position].setTextColor(getResources().getColor(R.color.primary_color));
         }
     }
