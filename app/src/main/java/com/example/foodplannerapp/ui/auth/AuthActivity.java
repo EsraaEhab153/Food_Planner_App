@@ -10,6 +10,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.foodplannerapp.R;
 import com.example.foodplannerapp.ui.auth.login.LoginFragment;
+import com.example.foodplannerapp.ui.auth.register.RegisterFragment;
 
 public class AuthActivity extends AppCompatActivity {
 
