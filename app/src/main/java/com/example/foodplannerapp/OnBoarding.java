@@ -1,5 +1,6 @@
 package com.example.foodplannerapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +29,7 @@ public class OnBoarding extends AppCompatActivity {
   TextView [] dotsIndicator;
   Button letsGetStarted;
   Animation animation;
+   Button btnSkip;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +41,14 @@ public class OnBoarding extends AppCompatActivity {
         viewPager2 = findViewById(R.id.slider);
         dots = findViewById(R.id.dots);
         letsGetStarted = findViewById(R.id.btn_get_started);
+        btnSkip = findViewById(R.id.btn_skip);
+
+        btnSkip.setOnClickListener(v -> {
+            Toast.makeText(OnBoarding.this, "Skip Clicked", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(OnBoarding.this, MainActivity.class));
+            finish();
+        });
+
 
         sliderAdapter = new SliderAdapter(this);
         viewPager2.setAdapter(sliderAdapter);
@@ -67,6 +78,11 @@ public class OnBoarding extends AppCompatActivity {
             }
         });
     }
+
+    public void next(View view){
+        viewPager2.setCurrentItem(viewPager2.getCurrentItem()+1);
+    }
+
     private void addDots(int position){
         dotsIndicator = new TextView[3];
         dots.removeAllViews();
