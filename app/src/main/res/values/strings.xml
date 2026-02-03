@@ -22,8 +22,12 @@
     <string name="forgot_password">forget password ?</string>
     <string name="or">or</string>
     <string name="continue_with_">continue with</string>
-    <string name="already_have_an_account">already have an account?</string>
+    <string name="already_have_an_account">already have an account? </string>
     <string name="register">register</string>
-    <string name="dont_have_account">don\'t have an account</string>
+    <string name="dont_have_account">don\'t have an account? </string>
+    <string name="signup">SignUp</string>
+    <string name="create_your_account">please create your account</string>
+    <string name="password">password</string>
+    <string name="confirm_password">confirm Password</string>
 
 </resources>
