@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,7 +26,7 @@ public class OnBoarding extends AppCompatActivity {
   SliderAdapter sliderAdapter;
   TextView [] dotsIndicator;
   Button letsGetStarted;
-
+  Animation animation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +60,8 @@ public class OnBoarding extends AppCompatActivity {
                 }else if(position == 1){
                     letsGetStarted.setVisibility(View.INVISIBLE);
                 }else{
+                    animation = AnimationUtils.loadAnimation(OnBoarding.this,R.anim.bottom_anim);
+                    letsGetStarted.setAnimation(animation);
                     letsGetStarted.setVisibility(View.VISIBLE);
                 }
             }
