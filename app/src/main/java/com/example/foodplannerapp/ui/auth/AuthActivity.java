@@ -1,5 +1,6 @@
 package com.example.foodplannerapp.ui.auth;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -8,9 +9,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.foodplannerapp.MainActivity;
 import com.example.foodplannerapp.R;
 import com.example.foodplannerapp.ui.auth.login.LoginFragment;
 import com.example.foodplannerapp.ui.auth.register.RegisterFragment;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class AuthActivity extends AppCompatActivity {
 
@@ -19,6 +22,12 @@ public class AuthActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_auth);
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null){
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+            return;
+        }
+
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
