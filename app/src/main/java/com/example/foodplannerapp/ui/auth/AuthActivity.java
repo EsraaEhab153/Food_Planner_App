@@ -32,7 +32,7 @@ public class AuthActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragmentContainerView, new LoginFragment())
+                    .replace(R.id.fragmentContainerView, new RegisterFragment())
                     .commit();
         }
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
