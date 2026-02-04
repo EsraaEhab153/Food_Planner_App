@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.foodplannerapp.MainActivity;
 import com.example.foodplannerapp.R;
+import com.example.foodplannerapp.ui.auth.forgetPassword.ForgetPasswordFragment;
 import com.example.foodplannerapp.ui.auth.login.LoginFragment;
 import com.example.foodplannerapp.ui.auth.register.RegisterFragment;
 import com.google.firebase.auth.FirebaseAuth;
