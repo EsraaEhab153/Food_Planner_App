@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +16,14 @@ import android.widget.Toast;
 
 import com.example.foodplannerapp.MainActivity;
 import com.example.foodplannerapp.R;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class LoginFragment extends Fragment implements LoginContract.View{
 private LoginPresenter presenter;
 EditText emailEdt , passwordEdt;
+TextInputLayout passwordLayout;
+private boolean isPasswordVisible = false;
+
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -36,6 +42,25 @@ EditText emailEdt , passwordEdt;
     emailEdt = view.findViewById(R.id.login_email);
     passwordEdt = view.findViewById(R.id.login_password);
     Button loginBtn = view.findViewById(R.id.btn_signin);
+    passwordLayout = view.findViewById(R.id.password_input_layout);
+
+        passwordLayout.setEndIconOnClickListener(v -> {
+
+            if (isPasswordVisible) {
+                // Hide password
+                passwordEdt.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                passwordLayout.setEndIconDrawable(R.drawable.eye_off);
+            } else {
+                // Show password
+                passwordEdt.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                passwordLayout.setEndIconDrawable(R.drawable.eye_on);
+            }
+
+            isPasswordVisible = !isPasswordVisible;
+
+            passwordEdt.setSelection(passwordEdt.getText().length());
+        });
+
     loginBtn.setOnClickListener(view1 -> {
         presenter.login(emailEdt.getText().toString(), passwordEdt.getText().toString());
 

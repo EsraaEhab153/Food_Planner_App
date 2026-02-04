@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.foodplannerapp.MainActivity;
 import com.example.foodplannerapp.R;
+import com.example.foodplannerapp.ui.auth.forgetPassword.ForgetPasswordFragment;
 import com.example.foodplannerapp.ui.auth.login.LoginFragment;
 import com.example.foodplannerapp.ui.auth.register.RegisterFragment;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,7 +32,7 @@ public class AuthActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragmentContainerView, new LoginFragment())
+                    .replace(R.id.fragmentContainerView, new RegisterFragment())
                     .commit();
         }
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

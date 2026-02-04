@@ -35,6 +35,19 @@ public class AuthRepository {
 
     }
 
+    public void resetPassword(String email, AuthCallback callback){
+
+        auth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(task -> {
+
+                    if(task.isSuccessful()){
+                        callback.onSuccess();
+                    }else{
+                        callback.onFailure(task.getException().getMessage());
+                    }
+                });
+    }
+
     public interface AuthCallback {
         void onSuccess();
 

@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +16,13 @@ import android.widget.Toast;
 
 import com.example.foodplannerapp.MainActivity;
 import com.example.foodplannerapp.R;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class RegisterFragment extends Fragment implements RegisterContract.View {
     EditText emailEdt, passwordEdt, confirmPasswordEdt;
     private RegisterPresenter presenter;
+    TextInputLayout registerPasswordLayout,confirmPasswordLayout;
+    private boolean isPasswordVisible = false;
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -38,6 +43,42 @@ public class RegisterFragment extends Fragment implements RegisterContract.View 
         passwordEdt = view.findViewById(R.id.register_password);
         confirmPasswordEdt = view.findViewById(R.id.register_confirm_password);
         Button registerBtn = view.findViewById(R.id.btn_signup);
+        registerPasswordLayout = view.findViewById(R.id.register_password_layout);
+        confirmPasswordLayout = view.findViewById(R.id.confirm_password_layout);
+
+        registerPasswordLayout.setEndIconOnClickListener(v -> {
+
+            if (isPasswordVisible) {
+                // Hide password
+                passwordEdt.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                registerPasswordLayout.setEndIconDrawable(R.drawable.eye_off);
+            } else {
+                // Show password
+                passwordEdt.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                registerPasswordLayout.setEndIconDrawable(R.drawable.eye_on);
+            }
+
+            isPasswordVisible = !isPasswordVisible;
+
+            passwordEdt.setSelection(passwordEdt.getText().length());
+        });
+
+        confirmPasswordLayout.setEndIconOnClickListener(v -> {
+
+            if (isPasswordVisible) {
+                // Hide password
+                confirmPasswordEdt.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                confirmPasswordLayout.setEndIconDrawable(R.drawable.eye_off);
+            } else {
+                // Show password
+                confirmPasswordEdt.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                confirmPasswordLayout.setEndIconDrawable(R.drawable.eye_on);
+            }
+
+            isPasswordVisible = !isPasswordVisible;
+
+            confirmPasswordEdt.setSelection(confirmPasswordEdt.getText().length());
+        });
 
         registerBtn.setOnClickListener(v->{
             presenter.register(emailEdt.getText().toString(), passwordEdt.getText().toString(), confirmPasswordEdt.getText().toString());
