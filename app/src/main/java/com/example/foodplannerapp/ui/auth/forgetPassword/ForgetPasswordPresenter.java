@@ -27,6 +27,7 @@ public class ForgetPasswordPresenter implements ForgotPasswordContract.Presenter
             public void onSuccess() {
                 view.hideLoading();
                 view.showMessage("Reset email sent, please check your inbox");
+                view.onResetSuccess();
             }
 
             @Override

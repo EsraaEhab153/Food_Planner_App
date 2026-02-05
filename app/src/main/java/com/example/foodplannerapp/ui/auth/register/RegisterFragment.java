@@ -4,14 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.foodplannerapp.MainActivity;
@@ -23,7 +27,7 @@ public class RegisterFragment extends Fragment implements RegisterContract.View 
     private RegisterPresenter presenter;
     TextInputLayout registerPasswordLayout,confirmPasswordLayout;
     private boolean isPasswordVisible = false;
-
+    TextView loginNow;
     public RegisterFragment() {
         // Required empty public constructor
     }
@@ -45,6 +49,8 @@ public class RegisterFragment extends Fragment implements RegisterContract.View 
         Button registerBtn = view.findViewById(R.id.btn_signup);
         registerPasswordLayout = view.findViewById(R.id.register_password_layout);
         confirmPasswordLayout = view.findViewById(R.id.confirm_password_layout);
+        NavController navController = NavHostFragment.findNavController(this);
+        loginNow = view.findViewById(R.id.tv_login_now);
 
         registerPasswordLayout.setEndIconOnClickListener(v -> {
 
@@ -83,6 +89,10 @@ public class RegisterFragment extends Fragment implements RegisterContract.View 
         registerBtn.setOnClickListener(v->{
             presenter.register(emailEdt.getText().toString(), passwordEdt.getText().toString(), confirmPasswordEdt.getText().toString());
         });
+
+        loginNow.setOnClickListener(v->
+              navController.navigate(R.id.action_register_to_login)
+                );
 
         return view;
     }
