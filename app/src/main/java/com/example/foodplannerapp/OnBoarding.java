@@ -29,7 +29,7 @@ public class OnBoarding extends AppCompatActivity {
     TextView[] dotsIndicator;
     Button letsGetStarted;
     Animation animation;
-    Button btnSkip;
+    Button btnSkip,btnNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +43,11 @@ public class OnBoarding extends AppCompatActivity {
         dots = findViewById(R.id.dots);
         letsGetStarted = findViewById(R.id.btn_get_started);
         btnSkip = findViewById(R.id.btn_skip);
+        btnNext = findViewById(R.id.btn_next);
 
         btnSkip.setOnClickListener(v -> {
             Toast.makeText(OnBoarding.this, "Skip Clicked", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(OnBoarding.this, MainActivity.class));
+            startActivity(new Intent(OnBoarding.this, AuthActivity.class));
             finish();
         });
         letsGetStarted.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +82,7 @@ public class OnBoarding extends AppCompatActivity {
                     animation = AnimationUtils.loadAnimation(OnBoarding.this, R.anim.bottom_anim);
                     letsGetStarted.setAnimation(animation);
                     letsGetStarted.setVisibility(View.VISIBLE);
+                    btnNext.setVisibility(View.INVISIBLE);;
                 }
             }
         });

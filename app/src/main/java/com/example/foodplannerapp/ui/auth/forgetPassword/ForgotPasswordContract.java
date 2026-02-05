@@ -5,6 +5,7 @@ public interface ForgotPasswordContract {
         void showLoading();
         void hideLoading();
         void showMessage(String message);
+        void onResetSuccess();
     }
 
     interface Presenter {
