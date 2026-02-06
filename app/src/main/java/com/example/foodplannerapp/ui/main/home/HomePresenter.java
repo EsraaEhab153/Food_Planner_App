@@ -1,6 +1,7 @@
 package com.example.foodplannerapp.ui.main.home;
 
 import com.example.foodplannerapp.model.Category;
+import com.example.foodplannerapp.model.Meal;
 
 import java.util.List;
 
@@ -23,5 +24,18 @@ public class HomePresenter implements HomeContract.Presenter {
             view.showError("No categories found");
         }
     }
-}
 
+    public void loadMealOfTheDay() {
+        repo.getRandomMeal(new HomeRepository.OnMealResult() {
+            @Override
+            public void onSuccess(Meal meal) {
+                view.showMealOfTheDay(meal);  // دلوقتي متوافق
+            }
+
+            @Override
+            public void onError(String error) {
+                view.showError(error);
+            }
+        });
+    }
+}
