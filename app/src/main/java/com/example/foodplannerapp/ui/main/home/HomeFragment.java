@@ -25,7 +25,6 @@ import java.util.List;
 
 public class HomeFragment extends Fragment implements HomeContract.View {
 
-    private RecyclerView rvCategories;
     private CategoriesAdapter categoriesAdapter;
     private HomeContract.Presenter presenter;
 
@@ -44,7 +43,6 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         // ===== Bind UI =====
-        rvCategories = view.findViewById(R.id.rvCategories);
         rvTrending = view.findViewById(R.id.rvTrending);
 
         // Meal of the Day views
@@ -56,7 +54,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         presenter = new HomePresenter(this, new HomeRepository());
 
         // Load Categories & Meal of the Day
-        presenter.loadCategories();
+       // presenter.loadCategories();
         presenter.loadMealOfTheDay();
         presenter.loadTrendingMeals();
 
@@ -64,14 +62,14 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     }
 
     // ======= Categories callback =======
-    @Override
-    public void showCategories(List<Category> categories) {
-        categoriesAdapter = new CategoriesAdapter(categories);
-        rvCategories.setLayoutManager(
-                new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false)
-        );
-        rvCategories.setAdapter(categoriesAdapter);
-    }
+//    @Override
+//    public void showCategories(List<Category> categories) {
+//        categoriesAdapter = new CategoriesAdapter(categories);
+//        rvCategories.setLayoutManager(
+//                new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false)
+//        );
+//        rvCategories.setAdapter(categoriesAdapter);
+//    }
 
     // ======= Meal of the Day callback =======
     @Override
