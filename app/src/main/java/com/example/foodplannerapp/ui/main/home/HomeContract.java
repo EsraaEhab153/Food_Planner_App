@@ -10,12 +10,14 @@ public interface HomeContract {
     interface View {
         void showCategories(List<Category> categories);
         void showMealOfTheDay(Meal meal);
+        void showTrendingMeals(List<Meal> meals);
         void showError(String message);
     }
 
     interface Presenter {
         void loadCategories();
         void loadMealOfTheDay();
+        void loadTrendingMeals();
     }
 }
 

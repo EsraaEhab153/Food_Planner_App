@@ -23,7 +23,6 @@ public class HomeRepository {
                 .create(MealApiService.class);
     }
 
-    // 1️⃣ Categories (Local)
     public List<Category> getCategories() {
         List<Category> list = new ArrayList<>();
         list.add(new Category("Breakfast", R.drawable.meat));
@@ -33,7 +32,6 @@ public class HomeRepository {
         return list;
     }
 
-    // 2️⃣ Meal of the Day (API)
     public void getRandomMeal(OnMealResult callback) {
         apiService.getRandomMeal().enqueue(new Callback<MealsResponse>() {
             @Override
