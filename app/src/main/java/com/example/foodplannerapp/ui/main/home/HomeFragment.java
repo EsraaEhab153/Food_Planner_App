@@ -18,7 +18,7 @@ import java.util.List;
 
 public class HomeFragment extends Fragment implements HomeContract.View {
 
-    private RecyclerView rvCategories, rvTrending, rvNew;
+    private RecyclerView rvCategories, rvTrending;
     private CategoriesAdapter categoriesAdapter;
     private HomeContract.Presenter presenter;
 
@@ -29,7 +29,6 @@ public class HomeFragment extends Fragment implements HomeContract.View {
 
         rvCategories = view.findViewById(R.id.rvCategories);
         rvTrending = view.findViewById(R.id.rvTrending);
-        rvNew = view.findViewById(R.id.rvNewRecipes);
 
         // Initialize presenter
         presenter = new HomePresenter(this, new HomeRepository());
