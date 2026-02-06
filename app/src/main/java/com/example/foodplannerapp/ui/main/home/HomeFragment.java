@@ -30,7 +30,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
 
     // Meal of the Day UI
     private TextView tvFeaturedTitle, mealCategory;
-    private ImageView imgFeatured;
+    private ShapeableImageView imgFeatured;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
