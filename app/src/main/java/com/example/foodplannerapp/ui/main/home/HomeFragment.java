@@ -18,19 +18,24 @@ import com.example.foodplannerapp.R;
 import com.example.foodplannerapp.model.Category;
 import com.example.foodplannerapp.model.Meal;
 import com.example.foodplannerapp.ui.main.home.adapter.CategoriesAdapter;
+import com.example.foodplannerapp.ui.main.home.adapter.TrendingMealAdapter;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.List;
 
 public class HomeFragment extends Fragment implements HomeContract.View {
 
-    private RecyclerView rvCategories, rvTrending;
+    private RecyclerView rvCategories;
     private CategoriesAdapter categoriesAdapter;
     private HomeContract.Presenter presenter;
 
     // Meal of the Day UI
     private TextView tvFeaturedTitle, mealCategory;
     private ShapeableImageView imgFeatured;
+
+    //trending meal
+    private RecyclerView rvTrending;
+    private TrendingMealAdapter trendingAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,6 +58,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         // Load Categories & Meal of the Day
         presenter.loadCategories();
         presenter.loadMealOfTheDay();
+        presenter.loadTrendingMeals();
 
         return view;
     }
@@ -78,6 +84,16 @@ public class HomeFragment extends Fragment implements HomeContract.View {
                 .centerCrop()
                 .into(imgFeatured);
     }
+
+    @Override
+    public void showTrendingMeals(List<Meal> meals) {
+        trendingAdapter = new TrendingMealAdapter(meals);
+        rvTrending.setLayoutManager(
+                new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false)
+        );
+        rvTrending.setAdapter(trendingAdapter);
+    }
+
 
     @Override
     public void showError(String message) {
