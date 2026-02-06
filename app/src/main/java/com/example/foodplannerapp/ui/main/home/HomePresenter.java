@@ -23,5 +23,11 @@ public class HomePresenter implements HomeContract.Presenter {
             view.showError("No categories found");
         }
     }
+    public void loadMealOfTheDay() {
+        repo.getRandomMeal(
+                meal -> view.showMealOfTheDay(meal),
+                error -> view.showError(error)
+        );
+    }
 }
 
