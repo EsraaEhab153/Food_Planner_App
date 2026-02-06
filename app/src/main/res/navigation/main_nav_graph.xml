@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.foodplannerapp.ui.main.home.HomeFragment"
+        android:label="Home" />
+
+    <fragment
+        android:id="@+id/searchMealsFragment"
+        android:name="com.example.foodplannerapp.ui.main.search.SearchMealFragment"
+        android:label="Search" />
+
+    <fragment
+        android:id="@+id/favoriteMealsFragment"
+        android:name="com.example.foodplannerapp.ui.main.favorite.FavoriteMealFragment"
+        android:label="Favorites" />
+
+    <fragment
+        android:id="@+id/weeklyPlanFragment"
+        android:name="com.example.foodplannerapp.ui.main.weeklyPlan.WeeklyPlanFragment"
+        android:label="Weekly Plan" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.foodplannerapp.ui.main.profile.ProfileFragment"
+        android:label="Profile" />
+
+</navigation>
