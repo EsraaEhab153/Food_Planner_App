@@ -3,6 +3,7 @@ package com.example.foodplannerapp.ui.main.search;
 import android.net.Uri;
 import android.util.Log;
 
+import com.example.foodplannerapp.model.AreaFlagMapper;
 import com.example.foodplannerapp.model.FilterItem;
 import com.example.foodplannerapp.model.FilterType;
 import com.example.foodplannerapp.model.ListResponse;
@@ -133,28 +134,14 @@ public class SearchPresenter implements SearchContract.Presenter {
                             if (counter[0] == total && view != null) view.showFilters(type, items);
 
                         } else if (type == FilterType.AREA) {
+                            String thumb = AreaFlagMapper.getFlagUrl(name);
 
-                            apiService.getMealsByArea(name).enqueue(new Callback<MealsResponse>() {
-                                @Override
-                                public void onResponse(Call<MealsResponse> call, Response<MealsResponse> response) {
-                                    String thumbLocal = "";
-                                    if (response.isSuccessful() && response.body() != null &&
-                                            response.body().getMeals() != null &&
-                                            !response.body().getMeals().isEmpty()) {
-                                        thumbLocal = response.body().getMeals().get(0).getStrMealThumb();
-                                    }
-                                    items.add(new FilterItem(name, type, thumbLocal));
-                                    counter[0]++;
-                                    if (counter[0] == total && view != null) view.showFilters(type, items);
-                                }
+                            items.add(new FilterItem(name, type, thumb));
+                            counter[0]++;
 
-                                @Override
-                                public void onFailure(Call<MealsResponse> call, Throwable t) {
-                                    items.add(new FilterItem(name, type, ""));
-                                    counter[0]++;
-                                    if (counter[0] == total && view != null) view.showFilters(type, items);
-                                }
-                            });
+                            if (counter[0] == total && view != null) {
+                                view.showFilters(type, items);
+                            }
 
                         } else if (type == FilterType.INGREDIENT) {
 
