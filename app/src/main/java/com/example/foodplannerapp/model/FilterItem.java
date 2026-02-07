@@ -12,9 +12,4 @@ public class FilterItem {
     public String getName() { return name; }
     public FilterType getType() { return type; }
 }
- enum FilterType {
-    CATEGORY,
-    INGREDIENT,
-    AREA
-}
 
