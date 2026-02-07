@@ -54,6 +54,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
+            android:backgroundTint="@color/chip_selector"
+            android:textColor="@color/chip_text_selector"
             android:text="Category"
             android:textSize="10sp"/>
 
@@ -63,6 +65,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
+            android:backgroundTint="@color/chip_selector"
+            android:textColor="@color/chip_text_selector"
             android:text="Ingredient"
             android:textSize="10sp"/>
 
@@ -71,6 +75,8 @@
             style="@style/Widget.Material3.Chip.Assist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/chip_selector"
+            android:textColor="@color/chip_text_selector"
             android:checkable="true"
             android:text="Country"
             android:textSize="10sp"/>
