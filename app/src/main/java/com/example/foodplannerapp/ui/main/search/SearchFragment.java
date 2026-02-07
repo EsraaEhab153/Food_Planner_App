@@ -6,6 +6,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,46 +15,42 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodplannerapp.R;
-import com.example.foodplannerapp.model.DummyFilterData;
+import com.example.foodplannerapp.model.FilterItem;
 import com.example.foodplannerapp.model.FilterType;
+import com.example.foodplannerapp.model.Meal;
 import com.example.foodplannerapp.ui.main.home.adapter.SearchFilterAdapter;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 
-public class SearchFragment extends Fragment {
+import java.util.List;
+
+public class SearchFragment extends Fragment implements SearchContract.View {
 
     private TextInputEditText etSearch;
     private RecyclerView rvFilters;
     private SearchFilterAdapter adapter;
-    ChipGroup chipGroup;
+    private ChipGroup chipGroup;
+    private SearchContract.Presenter presenter;
 
-
-
-    public SearchFragment() {
-        // Required empty public constructor
-    }
+    private FilterType currentFilterType = FilterType.CATEGORY;
 
     @Override
-    public View onCreateView(
-            @NonNull LayoutInflater inflater,
-            ViewGroup container,
-            Bundle savedInstanceState
-    ) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_search, container, false);
     }
 
     @Override
-    public void onViewCreated(
-            @NonNull View view,
-            @Nullable Bundle savedInstanceState
-    ) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         initViews(view);
         setupRecyclerView();
         setupChips();
         setupSearch();
-        chipGroup.check(R.id.chipCategory);
+
+        presenter = new SearchPresenter(this);
+
+        presenter.loadFilters(currentFilterType);
     }
 
     private void initViews(View view) {
@@ -64,51 +61,66 @@ public class SearchFragment extends Fragment {
 
     private void setupRecyclerView() {
         rvFilters.setLayoutManager(new GridLayoutManager(getContext(), 2));
-
         adapter = new SearchFilterAdapter();
         rvFilters.setAdapter(adapter);
-
-        adapter.setData( DummyFilterData.getByType(FilterType.CATEGORY));
-        chipGroup.check(R.id.chipCategory);
     }
 
     private void setupSearch() {
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void afterTextChanged(Editable s) {
                 adapter.filter(s.toString());
             }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
     }
 
     private void setupChips() {
         chipGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            etSearch.setText(""); // reset search text
 
             if (checkedId == R.id.chipCategory) {
-                adapter.setData(
-                        DummyFilterData.getByType(FilterType.CATEGORY)
-                );
-
+                currentFilterType = FilterType.CATEGORY;
             } else if (checkedId == R.id.chipArea) {
-                adapter.setData(
-                        DummyFilterData.getByType(FilterType.AREA)
-                );
-
+                currentFilterType = FilterType.AREA;
             } else if (checkedId == R.id.chipIngredient) {
-                adapter.setData(
-                        DummyFilterData.getByType(FilterType.INGREDIENT)
-                );
+                currentFilterType = FilterType.INGREDIENT;
             }
 
-            // reset search text
-            etSearch.setText("");
+            // جلب القيم ديناميكي من API
+            presenter.loadFilters(currentFilterType);
         });
     }
 
+    @Override
+    public void showFilters(FilterType type, List<FilterItem> items) {
+        adapter.setData(items);
+    }
+
+    @Override
+    public void showMeals(List<Meal> meals) {
+
+    }
+
+    @Override
+    public void showError(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showLoading() {
+        // ممكن تضيفي ProgressBar
+    }
+
+    @Override
+    public void hideLoading() {
+        // اخفاء ProgressBar
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        presenter.onDestroy();
+    }
 }
