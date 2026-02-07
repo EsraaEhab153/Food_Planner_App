@@ -11,7 +11,7 @@
 
     <fragment
         android:id="@+id/searchMealsFragment"
-        android:name="com.example.foodplannerapp.ui.main.search.SearchMealFragment"
+        android:name="com.example.foodplannerapp.ui.main.search.SearchFragment"
         android:label="Search" />
 
     <fragment

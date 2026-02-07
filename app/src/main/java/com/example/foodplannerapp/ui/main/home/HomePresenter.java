@@ -16,16 +16,6 @@ public class HomePresenter implements HomeContract.Presenter {
         this.repo = repo;
     }
 
-    @Override
-    public void loadCategories() {
-        List<Category> categories = repo.getCategories();
-        if (categories != null && !categories.isEmpty()) {
-            view.showCategories(categories);
-        } else {
-            view.showError("No categories found");
-        }
-    }
-
     public void loadMealOfTheDay() {
         repo.getRandomMeal(new HomeRepository.OnMealResult() {
             @Override
