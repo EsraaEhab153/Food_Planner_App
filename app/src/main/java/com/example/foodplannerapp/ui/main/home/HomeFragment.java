@@ -2,11 +2,15 @@ package com.example.foodplannerapp.ui.main.home;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
@@ -30,6 +34,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     //trending meal
     private RecyclerView rvTrending;
     private TrendingMealAdapter trendingAdapter;
+    private Button btnLetsCook;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +49,8 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         tvFeaturedTitle = view.findViewById(R.id.tvFeaturedTitle);
         mealCategory = view.findViewById(R.id.meal_category);
         imgFeatured = view.findViewById(R.id.imgFeatured);
+        btnLetsCook = view.findViewById(R.id.lets_cock_btn);
+
 
         // ===== Initialize presenter =====
         presenter = new HomePresenter(this, new HomeRepository());
@@ -65,6 +72,16 @@ public class HomeFragment extends Fragment implements HomeContract.View {
                 .load(meal.getStrMealThumb())
                 .centerCrop()
                 .into(imgFeatured);
+        btnLetsCook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("meal_id", meal.getIdMeal());
+                Log.d("MealDetails", "Meal ID = " +  meal.getIdMeal());
+                NavHostFragment.findNavController(HomeFragment.this)
+                        .navigate(R.id.action_homeFragment_to_mealDetailsFragment, bundle);
+            }
+        });
     }
 
     @Override
