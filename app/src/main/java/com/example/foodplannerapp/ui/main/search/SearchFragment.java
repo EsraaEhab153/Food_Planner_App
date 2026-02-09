@@ -88,7 +88,6 @@ public class SearchFragment extends Fragment implements SearchContract.View {
                 currentFilterType = FilterType.INGREDIENT;
             }
 
-            // جلب القيم ديناميكي من API
             presenter.loadFilters(currentFilterType);
         });
     }
@@ -110,12 +109,12 @@ public class SearchFragment extends Fragment implements SearchContract.View {
 
     @Override
     public void showLoading() {
-        // ممكن تضيفي ProgressBar
+
     }
 
     @Override
     public void hideLoading() {
-        // اخفاء ProgressBar
+
     }
 
     @Override

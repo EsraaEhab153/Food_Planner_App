@@ -7,7 +7,13 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.foodplannerapp.ui.main.home.HomeFragment"
-        android:label="Home" />
+        android:label="Home" >
+
+        <!-- Action to MealDetailsFragment -->
+        <action
+            android:id="@+id/action_homeFragment_to_mealDetailsFragment"
+            app:destination="@id/mealDetailsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/searchMealsFragment"
@@ -28,5 +34,17 @@
         android:id="@+id/profileFragment"
         android:name="com.example.foodplannerapp.ui.main.profile.ProfileFragment"
         android:label="Profile" />
+
+    <!-- Meal Details Fragment -->
+    <fragment
+        android:id="@+id/mealDetailsFragment"
+        android:name="com.example.foodplannerapp.ui.main.mealDetails.MealDetailsFragment"
+        android:label="Meal Details" >
+
+        <!-- Argument to pass Meal ID -->
+        <argument
+            android:name="mealId"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

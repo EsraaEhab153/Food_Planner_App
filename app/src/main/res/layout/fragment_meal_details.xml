@@ -1,0 +1,153 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/details_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="start|center_vertical"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="12dp">
+
+            <ImageView
+                android:id="@+id/iv_details_header"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/first_onboard"
+                android:contentDescription="image"/>
+
+            <TextView
+                android:id="@+id/tv_details_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="My Meal Details"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:contentDescription="my meal details"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/favorite_and_calendar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="12dp"
+            android:weightSum="2">
+
+            <ImageButton
+                android:id="@+id/btn_add_to_favorite"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="centerInside"
+                android:src="@drawable/favorite_icon"
+                android:contentDescription="Add to Favorites"/>
+
+            <ImageButton
+                android:id="@+id/btn_add_to_calendar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="centerInside"
+                android:src="@drawable/calendar_icon"
+                android:contentDescription="Add to Calendar"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imgMeal"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/moc_meal"/>
+
+        <TextView
+            android:id="@+id/tvMealName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary_color"
+            android:layout_marginTop="12dp"/>
+
+
+        <TextView
+            android:id="@+id/tvMealCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginTop="4dp"/>
+
+        <TextView
+            android:id="@+id/tvMealArea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginTop="2dp"/>
+
+        <!-- Ingredients List -->
+        <TextView
+            android:id="@+id/tvIngredientsHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ingredients"
+            android:textColor="@color/primary_color"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvIngredients"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            android:orientation="horizontal"/>
+
+        <!-- Instructions -->
+        <TextView
+            android:id="@+id/tvInstructionsHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Instructions"
+            android:textStyle="bold"
+            android:textColor="@color/primary_color"
+            android:layout_marginTop="12dp"/>
+
+        <TextView
+            android:id="@+id/tvInstructions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"/>
+
+        <!-- YouTube Video -->
+        <TextView
+            android:id="@+id/tvVideo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primary_color"
+            android:text="Watch Video"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"
+            android:clickable="true"
+            android:focusable="true"/>
+        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+            android:id="@+id/youtubePlayerView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="80dp"/>
+    </LinearLayout>
+</ScrollView>

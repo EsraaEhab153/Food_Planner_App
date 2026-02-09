@@ -54,4 +54,9 @@ public interface MealApiService {
     Call<ListResponse> getIngredients(
             @Query("i") String iList
     );
+   //Get meal details by id
+    @GET("lookup.php")
+    Call<MealsResponse> getMealDetailsById(
+            @Query("i") String mealId
+    );
 }
