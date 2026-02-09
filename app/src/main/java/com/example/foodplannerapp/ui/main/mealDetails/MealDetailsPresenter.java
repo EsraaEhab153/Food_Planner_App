@@ -25,10 +25,12 @@ public class MealDetailsPresenter implements MealDetailsContract.Presenter {
 
     @Override
     public void loadMealDetails(String mealId) {
+        view.showLoading();
 
         repository.getMealById(mealId, new Callback<MealsResponse>() {
             @Override
             public void onResponse(Call<MealsResponse> call, Response<MealsResponse> response) {
+                view.hideLoading();
                 Log.d("MealDetails", "raw response = " + response.body());
                 if(response.isSuccessful() && response.body() != null && response.body().getMeals() != null && !response.body().getMeals().isEmpty()){
                     view.showMealDetails(response.body().getMeals().get(0));
@@ -48,6 +50,7 @@ public class MealDetailsPresenter implements MealDetailsContract.Presenter {
 
             @Override
             public void onFailure(Call<MealsResponse> call, Throwable t) {
+                view.hideLoading();
                 view.showError(t.getMessage());
             }
         });

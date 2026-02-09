@@ -11,6 +11,8 @@ public interface HomeContract {
         void showTrendingMeals(List<Meal> meals);
         void showError(String message);
         void navigateToMealDetails(String mealId);
+        void showLoading();
+        void hideLoading();
 
     }
 

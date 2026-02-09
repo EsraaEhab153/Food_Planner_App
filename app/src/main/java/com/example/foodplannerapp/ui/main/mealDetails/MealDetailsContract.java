@@ -7,6 +7,8 @@ public interface MealDetailsContract {
         void showMealDetails(Meal meal);
         void showError(String message);
         void showSavedSuccessfully();
+        void showLoading();
+        void hideLoading();
     }
 
     interface Presenter {
