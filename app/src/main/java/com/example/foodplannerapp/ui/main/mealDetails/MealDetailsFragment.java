@@ -16,9 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.example.foodplannerapp.R;
 import com.example.foodplannerapp.data.weeklyplan.DataSource.local.WeeklyMealEntity;
@@ -52,6 +54,8 @@ public class MealDetailsFragment extends Fragment implements MealDetailsContract
     private IngredientsAdapter ingredientsAdapter;
     private Meal currentMeal;
     private WeeklyPlanRepository weeklyRepository;
+    private LottieAnimationView loadingAnimation;
+    private ScrollView contentView;
 
 
 
@@ -59,12 +63,16 @@ public class MealDetailsFragment extends Fragment implements MealDetailsContract
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_meal_details, container, false);
+        loadingAnimation = view.findViewById(R.id.loadingAnimation);
+        contentView = view.findViewById(R.id.contentView);
 
         tvMealName = view.findViewById(R.id.tvMealName);
         tvCategory = view.findViewById(R.id.tvMealCategory);
         tvArea = view.findViewById(R.id.tvMealArea);
         tvInstructions = view.findViewById(R.id.tvInstructions);
         imgMeal = view.findViewById(R.id.imgMeal);
+
+
 
         youtubePlayerView = view.findViewById(R.id.youtubePlayerView);
         getViewLifecycleOwner().getLifecycle().addObserver(youtubePlayerView);
@@ -253,5 +261,15 @@ private String extractYoutubeId(String youtubeUrl) {
                 );
     }
 
+    @Override
+    public void showLoading() {
+        loadingAnimation.setVisibility(View.VISIBLE);
+        contentView.setVisibility(View.GONE);
+    }
 
+    @Override
+    public void hideLoading() {
+        loadingAnimation.setVisibility(View.GONE);
+        contentView.setVisibility(View.VISIBLE);
+    }
 }
