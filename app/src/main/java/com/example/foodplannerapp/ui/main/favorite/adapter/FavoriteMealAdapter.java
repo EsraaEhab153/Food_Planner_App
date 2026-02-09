@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.foodplannerapp.R;
 import com.example.foodplannerapp.data.favorite.DataSource.FavoriteMealEntity;
+import com.google.android.material.imageview.ShapeableImageView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +60,7 @@ public class FavoriteMealAdapter extends RecyclerView.Adapter<FavoriteMealAdapte
     }
 
     static class FavViewHolder extends RecyclerView.ViewHolder {
-        ImageView imgMeal;
+        ShapeableImageView imgMeal;
         TextView tvMealName;
         ImageButton btnDelete;
 

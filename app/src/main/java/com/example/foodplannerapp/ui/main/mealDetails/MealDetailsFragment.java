@@ -25,6 +25,7 @@ import com.example.foodplannerapp.model.IngredientItem;
 import com.example.foodplannerapp.model.Meal;
 import com.example.foodplannerapp.ui.main.favorite.FavoriteRepository;
 import com.example.foodplannerapp.ui.main.weeklyPlan.WeeklyPlanRepository;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
@@ -47,7 +48,7 @@ public class MealDetailsFragment extends Fragment implements MealDetailsContract
 
     private TextView tvMealName, tvCategory, tvArea, tvInstructions;
     private YouTubePlayerView youtubePlayerView;
-    private ImageView imgMeal;
+    private ShapeableImageView imgMeal;
     private RecyclerView rvIngredients;
     private IngredientsAdapter ingredientsAdapter;
     private Meal currentMeal;

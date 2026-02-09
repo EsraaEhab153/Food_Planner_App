@@ -6,15 +6,33 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
-
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/details_header"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Favorite Meals"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:paddingBottom="8dp"/>
+        android:orientation="horizontal"
+        android:gravity="start|center_vertical"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="12dp">
+
+        <ImageView
+            android:id="@+id/iv_details_header"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/first_onboard"
+            android:contentDescription="image"/>
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Favorite Meals"
+            android:textColor="@color/primary_color"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:paddingBottom="8dp"/>
+    </LinearLayout>
+
 
 
     <androidx.recyclerview.widget.RecyclerView
