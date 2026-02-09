@@ -86,7 +86,10 @@ public class HomeFragment extends Fragment implements HomeContract.View {
 
     @Override
     public void showTrendingMeals(List<Meal> meals) {
-        trendingAdapter = new TrendingMealAdapter(meals);
+        trendingAdapter = new TrendingMealAdapter(meals, meal -> {
+            presenter.onTrendingMealClicked(meal);
+        });
+
         rvTrending.setLayoutManager(
                 new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false)
         );
@@ -94,8 +97,18 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     }
 
 
+
     @Override
     public void showError(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void navigateToMealDetails(String mealId) {
+        Bundle bundle = new Bundle();
+        bundle.putString("meal_id", mealId);
+
+        NavHostFragment.findNavController(this)
+                .navigate(R.id.action_homeFragment_to_mealDetailsFragment, bundle);
     }
 }

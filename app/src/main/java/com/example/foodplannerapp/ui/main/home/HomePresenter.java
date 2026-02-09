@@ -30,6 +30,13 @@ public class HomePresenter implements HomeContract.Presenter {
         });
     }
 
+    @Override
+    public void onTrendingMealClicked(Meal meal) {
+        if (meal != null && meal.getIdMeal() != null) {
+            view.navigateToMealDetails(meal.getIdMeal());
+        }
+    }
+
     public void loadTrendingMeals() {
         List<Meal> trendingMeals = new ArrayList<>();
 

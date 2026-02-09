@@ -18,9 +18,11 @@ import java.util.List;
 public class TrendingMealAdapter extends RecyclerView.Adapter<TrendingMealAdapter.MealViewHolder> {
 
     private final List<Meal> meals;
+    private OnMealClickListener listener;
 
-    public TrendingMealAdapter(List<Meal> meals) {
+    public TrendingMealAdapter(List<Meal> meals, OnMealClickListener listener) {
         this.meals = meals;
+        this.listener = listener;
     }
 
     @NonNull
@@ -42,6 +44,13 @@ public class TrendingMealAdapter extends RecyclerView.Adapter<TrendingMealAdapte
                 .load(meal.getStrMealThumb())
                 .centerCrop()
                 .into(holder.imgMeal);
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onMealClick(meal);
+            }
+        });
+
     }
 
     @Override
