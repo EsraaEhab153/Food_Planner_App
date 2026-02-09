@@ -1,15 +1,11 @@
 package com.example.foodplannerapp.ui.main.mealDetails;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,10 +19,13 @@ import android.widget.Toast;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.example.foodplannerapp.R;
+import com.example.foodplannerapp.data.favorite.DataSource.FavoriteMealEntity;
 import com.example.foodplannerapp.data.weeklyplan.DataSource.local.WeeklyMealEntity;
 import com.example.foodplannerapp.model.IngredientItem;
 import com.example.foodplannerapp.model.Meal;
+import com.example.foodplannerapp.ui.main.favorite.FavoriteRepository;
 import com.example.foodplannerapp.ui.main.weeklyPlan.WeeklyPlanRepository;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
@@ -49,34 +48,35 @@ public class MealDetailsFragment extends Fragment implements MealDetailsContract
 
     private TextView tvMealName, tvCategory, tvArea, tvInstructions;
     private YouTubePlayerView youtubePlayerView;
-    private ImageView imgMeal;
+    private ShapeableImageView imgMeal;
     private RecyclerView rvIngredients;
     private IngredientsAdapter ingredientsAdapter;
     private Meal currentMeal;
     private WeeklyPlanRepository weeklyRepository;
     private LottieAnimationView loadingAnimation;
     private ScrollView contentView;
-
-
+    private ImageButton ivFavorite;
+    private boolean isFavorite = false;
+    private FavoriteRepository favoriteRepository;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_meal_details, container, false);
+
         loadingAnimation = view.findViewById(R.id.loadingAnimation);
         contentView = view.findViewById(R.id.contentView);
-
         tvMealName = view.findViewById(R.id.tvMealName);
         tvCategory = view.findViewById(R.id.tvMealCategory);
         tvArea = view.findViewById(R.id.tvMealArea);
         tvInstructions = view.findViewById(R.id.tvInstructions);
         imgMeal = view.findViewById(R.id.imgMeal);
-
-
+        ivFavorite = view.findViewById(R.id.btn_add_to_favorite);
+        favoriteRepository = new FavoriteRepository(requireContext());
 
         youtubePlayerView = view.findViewById(R.id.youtubePlayerView);
         getViewLifecycleOwner().getLifecycle().addObserver(youtubePlayerView);
-
 
         youtubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
             @Override
@@ -90,13 +90,12 @@ public class MealDetailsFragment extends Fragment implements MealDetailsContract
             @Override
             public void onError(@NonNull YouTubePlayer youTubePlayer, @NonNull PlayerConstants.PlayerError error) {
                 Log.e("YouTubeError", "Error type: " + error.name());
-
                 Toast.makeText(getContext(), "Error: " + error.name(), Toast.LENGTH_LONG).show();
-            }});
+            }
+        });
 
         rvIngredients = view.findViewById(R.id.rvIngredients);
         rvIngredients.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-
 
         presenter = new MealDetailsPresenter(this, new MealDetailsRepository());
         weeklyRepository = new WeeklyPlanRepository(requireContext());
@@ -104,11 +103,60 @@ public class MealDetailsFragment extends Fragment implements MealDetailsContract
         // Load meal details
         String mealId = getArguments().getString("meal_id");
         presenter.loadMealDetails(mealId);
+
         ImageButton btnCalendar = view.findViewById(R.id.btn_add_to_calendar);
-        btnCalendar.setOnClickListener(v -> {
-            showDatePickerForMeal(currentMeal);
-        });
+        btnCalendar.setOnClickListener(v -> showDatePickerForMeal(currentMeal));
+
+        // check if meal is favorite
+        favoriteRepository.isFavorite(mealId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(fav -> {
+                    isFavorite = fav;
+                    updateFavoriteIcon();
+                }, throwable -> {});
+
+        ivFavorite.setOnClickListener(v -> toggleFavorite());
+
         return view;
+    }
+
+    private void toggleFavorite() {
+        if (currentMeal == null) return;
+
+        FavoriteMealEntity mealEntity = new FavoriteMealEntity(
+                currentMeal.getIdMeal(),
+                currentMeal.getStrMeal(),
+                currentMeal.getStrMealThumb()
+        );
+
+        if (isFavorite) {
+            favoriteRepository.removeFromFavorite(mealEntity)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(() -> {
+                        isFavorite = false;
+                        updateFavoriteIcon();
+                        Toast.makeText(requireContext(), "Removed from favorites", Toast.LENGTH_SHORT).show();
+                    }, throwable -> Toast.makeText(requireContext(), "Error removing from favorites", Toast.LENGTH_SHORT).show());
+        } else {
+            favoriteRepository.addToFavorite(mealEntity)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(() -> {
+                        isFavorite = true;
+                        updateFavoriteIcon();
+                        Toast.makeText(requireContext(), "Added to favorites", Toast.LENGTH_SHORT).show();
+                    }, throwable -> Toast.makeText(requireContext(), "Error adding to favorites", Toast.LENGTH_SHORT).show());
+        }
+    }
+
+    private void updateFavoriteIcon() {
+        if (isFavorite) {
+            ivFavorite.setImageResource(R.drawable.favorite_btn_filled);
+        } else {
+            ivFavorite.setImageResource(R.drawable.favorite_btn);
+        }
     }
 
     @Override
@@ -131,8 +179,7 @@ public class MealDetailsFragment extends Fragment implements MealDetailsContract
                 ingredientsList.add(new IngredientItem(
                         ingredient.trim(),
                         measure != null ? measure.trim() : "",
-                        "https://www.themealdb.com/images/ingredients/"
-                                + ingredient.trim() + "-Small.png"
+                        "https://www.themealdb.com/images/ingredients/" + ingredient.trim() + "-Small.png"
                 ));
             }
         }
@@ -140,72 +187,36 @@ public class MealDetailsFragment extends Fragment implements MealDetailsContract
         ingredientsAdapter = new IngredientsAdapter(ingredientsList);
         rvIngredients.setAdapter(ingredientsAdapter);
 
-
         // YouTube video
         if (meal.getStrYoutube() != null && !meal.getStrYoutube().isEmpty()) {
             String videoId = extractYoutubeId(meal.getStrYoutube());
-            Log.i("youtube", "youtube url: " + meal.getStrYoutube());
-            Log.i("youtube", "video id: "+ videoId);
             if(!videoId.isEmpty()){
                 youtubePlayerView.setVisibility(View.VISIBLE);
                 youtubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
                     @Override
                     public void onReady(@NonNull YouTubePlayer youTubePlayer) {
                         youTubePlayer.cueVideo(videoId, 0);
-                        Log.i("youtube", "onReady: cue "+videoId);
                     }
-                } );
-            }else{
+                });
+            } else {
                 youtubePlayerView.setVisibility(View.GONE);
             }
-
         } else {
             youtubePlayerView.setVisibility(View.GONE);
         }
-
     }
 
-//    private String extractYoutubeId(String url) {
-//        Uri uri = Uri.parse("https://www.youtube.com/watch?v=aqz-KE-bpKQ");
-//        return uri.getQueryParameter("v");
-//    }
-//private String extractYoutubeId(String url) {
-//    String videoId = null;
-//    if (url != null && url.trim().length() > 0) {
-//        String pattern = "(?<=watch\\?v=|/videos/|embed\\/|youtu.be\\/|\\/v\\/|\\/e\\/|watch\\?v%3D|watch\\?feature=player_embedded&v=|%2Fvideos%2F|embed%\u200C\u200B2F|youtu.be%2F|%2Fv%2F)[^#\\&\\?\\n]*";
-//        java.util.regex.Pattern compiledPattern = java.util.regex.Pattern.compile(pattern);
-//        java.util.regex.Matcher matcher = compiledPattern.matcher(url);
-//        if (matcher.find()) {
-//            videoId = matcher.group();
-//        }
-//    }
-//    return videoId;
-//}
-private String extractYoutubeId(String youtubeUrl) {
-    if (youtubeUrl == null || youtubeUrl.isEmpty()) {
+    private String extractYoutubeId(String youtubeUrl) {
+        if (youtubeUrl == null || youtubeUrl.isEmpty()) return "";
+        Pattern pattern = Pattern.compile(
+                "(?:youtube\\.com/(?:watch\\?v=|embed/)|youtu\\.be/)([a-zA-Z0-9_-]{11})",
+                Pattern.CASE_INSENSITIVE
+        );
+        Matcher matcher = pattern.matcher(youtubeUrl);
+        if (matcher.find()) return matcher.group(1);
+        if (youtubeUrl.contains("v=")) return youtubeUrl.split("v=")[1].split("&")[0];
         return "";
     }
-
-    Pattern pattern = Pattern.compile(
-            "(?:youtube\\.com/(?:watch\\?v=|embed/)|youtu\\.be/)([a-zA-Z0-9_-]{11})",
-            Pattern.CASE_INSENSITIVE
-    );
-
-    Matcher matcher = pattern.matcher(youtubeUrl);
-    if (matcher.find()) {
-        return matcher.group(1);
-    }
-
-    if (youtubeUrl.contains("v=")) {
-        String[] parts = youtubeUrl.split("v=");
-        if (parts.length > 1) {
-            String videoId = parts[1].split("&")[0];
-            return videoId;
-        }
-    }
-
-    return "";
-}
 
     @Override
     public void showError(String message) {
@@ -218,10 +229,11 @@ private String extractYoutubeId(String youtubeUrl) {
     }
 
     private void showDatePickerForMeal(Meal meal) {
-        if (currentMeal == null) {
+        if (meal == null) {
             Toast.makeText(getContext(), "Meal not loaded yet", Toast.LENGTH_SHORT).show();
             return;
         }
+
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
@@ -247,6 +259,7 @@ private String extractYoutubeId(String youtubeUrl) {
                 },
                 year, month, day
         );
+
         dialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
         dialog.show();
     }

@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.example.foodplannerapp.R;
 import com.example.foodplannerapp.data.weeklyplan.DataSource.local.WeeklyMealEntity;
 import com.example.foodplannerapp.ui.main.weeklyPlan.OnMealDeleteListener;
+import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.List;
 
@@ -60,7 +61,7 @@ public class DayMealsAdapter extends RecyclerView.Adapter<DayMealsAdapter.MealVi
     }
 
     static class MealViewHolder extends RecyclerView.ViewHolder {
-        ImageView imgMeal;
+        ShapeableImageView imgMeal;
         TextView tvMealName;
         ImageView btnDelete;
 
