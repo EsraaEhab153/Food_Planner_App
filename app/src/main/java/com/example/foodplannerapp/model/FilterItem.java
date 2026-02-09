@@ -3,9 +3,9 @@ package com.example.foodplannerapp.model;
 public class FilterItem {
     private String name;
     private FilterType type; // CATEGORY, INGREDIENT, AREA
-    private String thumb; // الصورة لكل item
+    private String thumb;
 
-    // constructor جديد يدعم الصورة
+
     public FilterItem(String name, FilterType type, String thumb) {
         this.name = name;
         this.type = type;
@@ -14,5 +14,5 @@ public class FilterItem {
 
     public String getName() { return name; }
     public FilterType getType() { return type; }
-    public String getThumb() { return thumb; } // getter للصورة
+    public String getThumb() { return thumb; }
 }

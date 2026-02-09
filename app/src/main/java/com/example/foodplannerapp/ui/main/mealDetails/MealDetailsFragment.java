@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.foodplannerapp.R;
+import com.example.foodplannerapp.model.IngredientItem;
 import com.example.foodplannerapp.model.Meal;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
@@ -33,6 +34,9 @@ public class MealDetailsFragment extends Fragment implements MealDetailsContract
     private TextView tvMealName, tvCategory, tvArea, tvInstructions;
     private YouTubePlayerView youtubePlayerView;
     private ImageView imgMeal;
+    private RecyclerView rvIngredients;
+    private IngredientsAdapter ingredientsAdapter;
+
 
 
     @Override
@@ -48,6 +52,10 @@ public class MealDetailsFragment extends Fragment implements MealDetailsContract
 
         youtubePlayerView = view.findViewById(R.id.youtubePlayerView);
         getLifecycle().addObserver(youtubePlayerView);
+
+        rvIngredients = view.findViewById(R.id.rvIngredients);
+        rvIngredients.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
 
         presenter = new MealDetailsPresenter(this, new MealDetailsRepository());
 
@@ -68,6 +76,23 @@ public class MealDetailsFragment extends Fragment implements MealDetailsContract
         Glide.with(requireContext())
                 .load(meal.getStrMealThumb())
                 .into(imgMeal);
+
+        List<IngredientItem> ingredientsList = new ArrayList<>();
+        for (int i = 1; i <= 20; i++) {
+            String ingredient = meal.getIngredient(i);
+            String measure = meal.getMeasure(i);
+            if (ingredient != null && !ingredient.isEmpty()) {
+                ingredientsList.add(new IngredientItem(
+                        ingredient.trim(),
+                        measure != null ? measure.trim() : "",
+                        "https://www.themealdb.com/images/ingredients/"
+                                + ingredient.trim() + "-Small.png"
+                ));
+            }
+        }
+
+        ingredientsAdapter = new IngredientsAdapter(ingredientsList);
+        rvIngredients.setAdapter(ingredientsAdapter);
 
 
         // YouTube video
