@@ -163,6 +163,7 @@ private String extractYoutubeId(String url) {
 
         DatePickerDialog dialog = new DatePickerDialog(
                 requireContext(),
+                R.style.MyDatePickerDialogTheme,
                 (view, y, m, d) -> {
                     Calendar selected = Calendar.getInstance();
                     selected.set(y, m, d, 0, 0, 0);
