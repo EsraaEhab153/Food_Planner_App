@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.foodplannerapp.R;
 import com.example.foodplannerapp.data.weeklyplan.DataSource.local.WeeklyMealEntity;
+import com.example.foodplannerapp.ui.main.weeklyPlan.OnMealDeleteListener;
 
 import java.util.List;
 
@@ -19,8 +20,12 @@ public class DayMealsAdapter extends RecyclerView.Adapter<DayMealsAdapter.MealVi
 
     private List<WeeklyMealEntity> meals;
 
-    public DayMealsAdapter(List<WeeklyMealEntity> meals) {
+    private OnMealDeleteListener listener;
+
+    public DayMealsAdapter(List<WeeklyMealEntity> meals,
+                           OnMealDeleteListener listener) {
         this.meals = meals;
+        this.listener = listener;
     }
 
     @NonNull
@@ -34,6 +39,10 @@ public class DayMealsAdapter extends RecyclerView.Adapter<DayMealsAdapter.MealVi
     public void onBindViewHolder(@NonNull MealViewHolder holder, int position) {
         WeeklyMealEntity meal = meals.get(position);
         holder.tvMealName.setText(meal.getMealName());
+        holder.btnDelete.setOnClickListener(v -> {
+            listener.onDeleteClick(meal);
+        });
+
         Glide.with(holder.imgMeal.getContext())
                 .load(meal.getMealThumb())
                 .into(holder.imgMeal);
@@ -53,11 +62,13 @@ public class DayMealsAdapter extends RecyclerView.Adapter<DayMealsAdapter.MealVi
     static class MealViewHolder extends RecyclerView.ViewHolder {
         ImageView imgMeal;
         TextView tvMealName;
+        ImageView btnDelete;
 
         public MealViewHolder(@NonNull View itemView) {
             super(itemView);
             imgMeal = itemView.findViewById(R.id.imgMeal);
             tvMealName = itemView.findViewById(R.id.tvMealName);
+            btnDelete = itemView.findViewById(R.id.btnDelete);
         }
     }
 }

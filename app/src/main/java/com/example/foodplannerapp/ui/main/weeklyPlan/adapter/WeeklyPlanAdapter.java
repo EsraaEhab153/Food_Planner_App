@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodplannerapp.R;
 import com.example.foodplannerapp.data.weeklyplan.DataSource.local.WeeklyMealEntity;
+import com.example.foodplannerapp.ui.main.weeklyPlan.OnMealDeleteListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,10 +23,12 @@ public class WeeklyPlanAdapter extends RecyclerView.Adapter<WeeklyPlanAdapter.Da
     private Map<Integer, List<WeeklyMealEntity>> mealsByDay;
     private final String[] dayNames = {"Saturday","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday"};
     private DayMealsAdapter[] dayAdapters = new DayMealsAdapter[7];
+    private OnMealDeleteListener deleteListener;
 
-    public WeeklyPlanAdapter() {
-
+    public WeeklyPlanAdapter(OnMealDeleteListener deleteListener) {
+        this.deleteListener = deleteListener;
     }
+
 
     public void updateData(Map<Integer, List<WeeklyMealEntity>> newMealsByDay) {
         this.mealsByDay = newMealsByDay;
@@ -54,7 +57,7 @@ public class WeeklyPlanAdapter extends RecyclerView.Adapter<WeeklyPlanAdapter.Da
         if (meals == null) meals = new ArrayList<>();
 
         if (dayAdapters[position] == null) {
-            dayAdapters[position] = new DayMealsAdapter(meals);
+            dayAdapters[position] = new DayMealsAdapter(meals, deleteListener);
         } else {
             dayAdapters[position].updateData(meals);
         }

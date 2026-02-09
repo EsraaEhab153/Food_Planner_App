@@ -15,6 +15,7 @@ public interface WeeklyPlanContract {
     interface Presenter {
         void loadWeeklyMeals();
         void onDateSelected(WeeklyMealEntity mealEntity);
+        void deleteMeal(WeeklyMealEntity meal);
     }
 }
 

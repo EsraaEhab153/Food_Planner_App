@@ -1,5 +1,7 @@
 package com.example.foodplannerapp.ui.main.weeklyPlan;
 
+import android.util.Log;
+
 import com.example.foodplannerapp.HelperClasses.DateUtils;
 import com.example.foodplannerapp.data.weeklyplan.DataSource.local.WeeklyMealEntity;
 import com.example.foodplannerapp.ui.main.weeklyPlan.WeeklyPlanContract.View;
@@ -48,6 +50,17 @@ public class WeeklyPlanPresenter implements WeeklyPlanContract.Presenter {
                         )
         );
     }
+
+    public void deleteMeal(WeeklyMealEntity meal) {
+        repository.deleteMeal(meal.getId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        () -> Log.d("DELETE", "Meal deleted"),
+                        throwable -> Log.e("DELETE", throwable.getMessage())
+                );
+    }
+
 
     public void clear() {
         disposable.clear();

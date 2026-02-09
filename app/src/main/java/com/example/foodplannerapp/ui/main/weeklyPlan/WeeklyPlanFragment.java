@@ -23,7 +23,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
-public class WeeklyPlanFragment extends Fragment implements WeeklyPlanContract.View {
+public class WeeklyPlanFragment extends Fragment implements WeeklyPlanContract.View, OnMealDeleteListener {
 
     private WeeklyPlanContract.Presenter presenter;
     private Meal selectedMeal;
@@ -40,7 +40,7 @@ public class WeeklyPlanFragment extends Fragment implements WeeklyPlanContract.V
         rvWeeklyPlan.setLayoutManager(new LinearLayoutManager(requireContext()));
 
 
-        adapter = new WeeklyPlanAdapter();
+        adapter = new WeeklyPlanAdapter(this);
         rvWeeklyPlan.setAdapter(adapter);
 
         presenter = new WeeklyPlanPresenter(this, new WeeklyPlanRepository(requireContext()));
@@ -75,6 +75,11 @@ public class WeeklyPlanFragment extends Fragment implements WeeklyPlanContract.V
         if (presenter instanceof WeeklyPlanPresenter) {
             ((WeeklyPlanPresenter) presenter).clear();
         }
+    }
+
+    @Override
+    public void onDeleteClick(WeeklyMealEntity meal) {
+        presenter.deleteMeal(meal);
     }
 
 }

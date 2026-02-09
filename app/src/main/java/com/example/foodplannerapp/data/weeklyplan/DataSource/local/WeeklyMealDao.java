@@ -21,5 +21,7 @@ public interface WeeklyMealDao {
             long startDate,
             long endDate
     );
+    @Query("DELETE FROM weekly_meals WHERE id = :mealId")
+    Completable deleteMealById(int mealId);
 }
 
