@@ -53,4 +53,11 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.github.bumptech.glide:glide:5.0.5")
     implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
+    val room_version = "2.8.4"
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    implementation("com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0")
+    implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
+    implementation("io.reactivex.rxjava3:rxjava:3.1.6")
+    implementation("androidx.room:room-rxjava3:$room_version")
 }

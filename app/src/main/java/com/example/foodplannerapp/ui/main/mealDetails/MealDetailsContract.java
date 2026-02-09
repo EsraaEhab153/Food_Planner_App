@@ -6,6 +6,7 @@ public interface MealDetailsContract {
     interface View {
         void showMealDetails(Meal meal);
         void showError(String message);
+        void showSavedSuccessfully();
     }
 
     interface Presenter {

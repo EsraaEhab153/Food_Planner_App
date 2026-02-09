@@ -2,7 +2,12 @@ package com.example.foodplannerapp.ui.main.mealDetails;
 
 import android.util.Log;
 
+import com.example.foodplannerapp.data.weeklyplan.DataSource.local.WeeklyMealEntity;
+import com.example.foodplannerapp.model.Meal;
 import com.example.foodplannerapp.model.MealsResponse;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -11,6 +16,7 @@ public class MealDetailsPresenter implements MealDetailsContract.Presenter {
 
     private MealDetailsContract.View view;
     private MealDetailsRepository repository;
+    private Meal currentMeal;
 
     public MealDetailsPresenter(MealDetailsContract.View view, MealDetailsRepository repo){
         this.view = view;
@@ -46,4 +52,21 @@ public class MealDetailsPresenter implements MealDetailsContract.Presenter {
             }
         });
     }
+    public void onDateSelected(long dayMillis) {
+        WeeklyMealEntity entity = new WeeklyMealEntity(
+                currentMeal.getIdMeal(),
+                currentMeal.getStrMeal(),
+                currentMeal.getStrMealThumb(),
+                dayMillis
+        );
+
+        repository.insertMeal(entity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        () -> view.showSavedSuccessfully(),
+                        throwable -> view.showError(throwable.getMessage())
+                );
+    }
+
 }
