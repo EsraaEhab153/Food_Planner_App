@@ -17,9 +17,11 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     public void loadMealOfTheDay() {
+        view.showLoading();
         repo.getRandomMeal(new HomeRepository.OnMealResult() {
             @Override
             public void onSuccess(Meal meal) {
+                view.hideLoading();
                 view.showMealOfTheDay(meal);
             }
 

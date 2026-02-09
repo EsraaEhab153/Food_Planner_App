@@ -1,6 +1,8 @@
 package com.example.foodplannerapp.ui.main.home;
 
 import android.os.Bundle;
+
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,8 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.example.foodplannerapp.R;
 import com.example.foodplannerapp.model.Meal;
@@ -35,12 +40,17 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     private RecyclerView rvTrending;
     private TrendingMealAdapter trendingAdapter;
     private Button btnLetsCook;
+    private LottieAnimationView loadingAnimation;
+    private NestedScrollView nestedScrollView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        loadingAnimation = view.findViewById(R.id.loadingAnimation);
+        nestedScrollView = view.findViewById(R.id.nestedScrollView);
 
         // ===== Bind UI =====
         rvTrending = view.findViewById(R.id.rvTrending);
@@ -110,5 +120,17 @@ public class HomeFragment extends Fragment implements HomeContract.View {
 
         NavHostFragment.findNavController(this)
                 .navigate(R.id.action_homeFragment_to_mealDetailsFragment, bundle);
+    }
+
+    @Override
+    public void showLoading() {
+        loadingAnimation.setVisibility(View.VISIBLE);
+        nestedScrollView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void hideLoading() {
+        loadingAnimation.setVisibility(View.GONE);
+        nestedScrollView.setVisibility(View.VISIBLE);
     }
 }
