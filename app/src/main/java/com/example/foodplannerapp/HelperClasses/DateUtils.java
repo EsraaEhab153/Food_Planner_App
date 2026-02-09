@@ -11,7 +11,7 @@ public class DateUtils {
         // Adjust to Saturday as start
         int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
         int diff = Calendar.SATURDAY - dayOfWeek;
-        if (diff > 0) diff -= 7; // لو اليوم قبل السبت
+        if (diff > 0) diff -= 7;
         cal.add(Calendar.DAY_OF_MONTH, diff);
 
         cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -29,7 +29,7 @@ public class DateUtils {
         // Adjust to Friday as end
         int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
         int diff = Calendar.FRIDAY - dayOfWeek;
-        if (diff < 0) diff += 7; // لو اليوم بعد الجمعة
+        if (diff < 0) diff += 7;
         cal.add(Calendar.DAY_OF_MONTH, diff);
 
         cal.set(Calendar.HOUR_OF_DAY, 23);

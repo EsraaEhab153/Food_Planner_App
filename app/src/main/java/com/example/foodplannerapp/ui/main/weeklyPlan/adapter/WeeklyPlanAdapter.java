@@ -17,66 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//public class WeeklyPlanAdapter extends RecyclerView.Adapter<WeeklyPlanAdapter.DayViewHolder> {
-//
-//    private Map<Integer, List<WeeklyMealEntity>> mealsByDay;
-//    private final String[] dayNames = {"Saturday","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday"};
-//
-//    public WeeklyPlanAdapter() {
-//        // نبدأ بخريطة فارغة
-//        mealsByDay = new HashMap<>();
-//        for (int i = 0; i < 7; i++) {
-//            mealsByDay.put(i, new ArrayList<>());
-//        }
-//    }
-//
-//    @NonNull
-//    @Override
-//    public DayViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_day_meals, parent, false);
-//        return new DayViewHolder(view);
-//    }
-//
-//    @Override
-//    public void onBindViewHolder(@NonNull DayViewHolder holder, int position) {
-//        holder.tvDayName.setText(dayNames[position]);
-//        List<WeeklyMealEntity> meals = mealsByDay.get(position);
-//        if (meals == null) meals = new ArrayList<>();
-//
-//        // نحتفظ بالـ Adapter داخل الـ ViewHolder بدل ما نعمله كل مرة
-//        if (holder.rvMealsForDay.getAdapter() == null) {
-//            DayMealsAdapter adapter = new DayMealsAdapter(meals);
-//            holder.rvMealsForDay.setLayoutManager(new LinearLayoutManager(holder.rvMealsForDay.getContext()));
-//            holder.rvMealsForDay.setAdapter(adapter);
-//        } else {
-//            ((DayMealsAdapter) holder.rvMealsForDay.getAdapter()).updateData(meals);
-//        }
-//    }
-//
-//    @Override
-//    public int getItemCount() {
-//        return 7;
-//    }
-//
-//    public void updateData(Map<Integer, List<WeeklyMealEntity>> newMealsByDay) {
-//        mealsByDay.clear();
-//        mealsByDay.putAll(newMealsByDay);
-//        notifyDataSetChanged();
-//    }
-//
-//    static class DayViewHolder extends RecyclerView.ViewHolder {
-//        TextView tvDayName;
-//        RecyclerView rvMealsForDay;
-//
-//        public DayViewHolder(@NonNull View itemView) {
-//            super(itemView);
-//            tvDayName = itemView.findViewById(R.id.tvDayName);
-//            rvMealsForDay = itemView.findViewById(R.id.rvMealsForDay);
-//        }
-//    }
-//}
-
-
 public class WeeklyPlanAdapter extends RecyclerView.Adapter<WeeklyPlanAdapter.DayViewHolder> {
 
     private Map<Integer, List<WeeklyMealEntity>> mealsByDay;
@@ -84,12 +24,12 @@ public class WeeklyPlanAdapter extends RecyclerView.Adapter<WeeklyPlanAdapter.Da
     private DayMealsAdapter[] dayAdapters = new DayMealsAdapter[7];
 
     public WeeklyPlanAdapter() {
-        // البداية فاضية
+
     }
 
     public void updateData(Map<Integer, List<WeeklyMealEntity>> newMealsByDay) {
         this.mealsByDay = newMealsByDay;
-        // حدث كل adapters موجودة
+
         for (int i = 0; i < 7; i++) {
             if (dayAdapters[i] != null) {
                 List<WeeklyMealEntity> meals = mealsByDay.get(i);
