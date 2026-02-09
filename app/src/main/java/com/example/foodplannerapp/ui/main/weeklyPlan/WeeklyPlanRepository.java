@@ -34,8 +34,11 @@ public class WeeklyPlanRepository {
     ) {
         return weeklyMealDao.getMealsForWeek(start, end);
     }
+    public Completable deleteMeal(int mealId) {
+        return weeklyMealDao.deleteMealById(mealId);
+    }
 
-public Map<Integer, List<WeeklyMealEntity>> convertListToMapByDay(List<WeeklyMealEntity> list) {
+    public Map<Integer, List<WeeklyMealEntity>> convertListToMapByDay(List<WeeklyMealEntity> list) {
     Map<Integer, List<WeeklyMealEntity>> map = new HashMap<>();
     for (int i = 0; i < 7; i++) {
         map.put(i, new ArrayList<>());
