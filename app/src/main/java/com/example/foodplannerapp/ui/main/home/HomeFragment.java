@@ -24,6 +24,8 @@ import com.example.foodplannerapp.model.Meal;
 import com.example.foodplannerapp.ui.main.home.adapter.CategoriesAdapter;
 import com.example.foodplannerapp.ui.main.home.adapter.TrendingMealAdapter;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 
@@ -33,7 +35,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     private HomeContract.Presenter presenter;
 
     // Meal of the Day UI
-    private TextView tvFeaturedTitle, mealCategory;
+    private TextView tvFeaturedTitle, mealCategory,tvUsername;
     private ShapeableImageView imgFeatured;
 
     //trending meal
@@ -42,6 +44,11 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     private Button btnLetsCook;
     private LottieAnimationView loadingAnimation;
     private NestedScrollView nestedScrollView;
+
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    String email = user.getEmail().toString();
+    String username = email.substring(0, (user.getEmail().toString()).indexOf("@"));
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,6 +67,8 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         mealCategory = view.findViewById(R.id.meal_category);
         imgFeatured = view.findViewById(R.id.imgFeatured);
         btnLetsCook = view.findViewById(R.id.lets_cock_btn);
+        tvUsername = view.findViewById(R.id.tv_username);
+        tvUsername.setText(username);
 
 
         // ===== Initialize presenter =====

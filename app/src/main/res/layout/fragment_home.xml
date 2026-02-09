@@ -42,12 +42,26 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="64dp"
                 android:layout_marginTop="8dp"
-                android:text="Hello, Esraa!"
+                android:text="Hello,"
                 android:textColor="@color/primary_color"
-                android:textSize="22sp"
+                android:layout_marginEnd="4dp"
+                android:textSize="19sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="64dp"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/primary_color"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/tvHello"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Esraaehab" />
 
             <ImageView
                 android:id="@+id/imgProfile"
@@ -58,17 +72,6 @@
                 app:layout_constraintBottom_toBottomOf="@id/tvHello"
                 app:layout_constraintEnd_toStartOf="@id/tvHello" />
 
-            <TextView
-                android:id="@+id/tv_meal_of_the_day"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@id/cardFeatured"
-                app:layout_constraintTop_toBottomOf="@+id/tvHello"
-                app:layout_constraintStart_toStartOf="parent"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:text="@string/meal_of_the_day" />
-
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardFeatured"
                 android:layout_width="match_parent"
@@ -77,7 +80,7 @@
                 app:cardCornerRadius="16dp"
                 app:cardElevation="4dp"
                 app:cardBackgroundColor="#FFF3F3"
-                app:layout_constraintTop_toBottomOf="@id/tv_meal_of_the_day">
+                app:layout_constraintTop_toBottomOf="@id/imgProfile">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
