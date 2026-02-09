@@ -1,15 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.weeklyPlan.WeeklyPlanFragment"
-    android:background="#D60B0B">
+    android:padding="16dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="110dp">
 
-</FrameLayout>
+        <LinearLayout
+            android:id="@+id/plan_header_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="start|center_vertical"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="12dp">
+
+            <ImageView
+                android:id="@+id/iv_details_header"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/second_onboard"
+                android:contentDescription="image"/>
+
+            <TextView
+                android:id="@+id/tv_weekly_plan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Weekly Plan"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_color"/>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvWeeklyPlan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"/>
+
+    </LinearLayout>
+</ScrollView>

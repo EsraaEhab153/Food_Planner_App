@@ -11,4 +11,9 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="MyDatePickerDialogTheme" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="colorPrimary">@color/primary_color</item>
+        <item name="colorAccent">@color/primary_color</item>
+    </style>
+
 </resources>

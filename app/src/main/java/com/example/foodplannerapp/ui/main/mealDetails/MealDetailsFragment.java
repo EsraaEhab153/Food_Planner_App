@@ -1,5 +1,6 @@
 package com.example.foodplannerapp.ui.main.mealDetails;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,20 +13,27 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.foodplannerapp.R;
+import com.example.foodplannerapp.data.weeklyplan.DataSource.local.WeeklyMealEntity;
 import com.example.foodplannerapp.model.IngredientItem;
 import com.example.foodplannerapp.model.Meal;
+import com.example.foodplannerapp.ui.main.weeklyPlan.WeeklyPlanRepository;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MealDetailsFragment extends Fragment implements MealDetailsContract.View {
 
@@ -36,6 +44,8 @@ public class MealDetailsFragment extends Fragment implements MealDetailsContract
     private ImageView imgMeal;
     private RecyclerView rvIngredients;
     private IngredientsAdapter ingredientsAdapter;
+    private Meal currentMeal;
+    private WeeklyPlanRepository weeklyRepository;
 
 
 
@@ -58,16 +68,21 @@ public class MealDetailsFragment extends Fragment implements MealDetailsContract
 
 
         presenter = new MealDetailsPresenter(this, new MealDetailsRepository());
+        weeklyRepository = new WeeklyPlanRepository(requireContext());
 
         // Load meal details
         String mealId = getArguments().getString("meal_id");
         presenter.loadMealDetails(mealId);
-
+        ImageButton btnCalendar = view.findViewById(R.id.btn_add_to_calendar);
+        btnCalendar.setOnClickListener(v -> {
+            showDatePickerForMeal(currentMeal);
+        });
         return view;
     }
 
     @Override
     public void showMealDetails(Meal meal) {
+        this.currentMeal = meal;
         tvMealName.setText(meal.getStrMeal());
         tvCategory.setText(meal.getStrCategory());
         tvArea.setText(meal.getStrArea());
@@ -101,7 +116,7 @@ public class MealDetailsFragment extends Fragment implements MealDetailsContract
             youtubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
                 @Override
                 public void onReady(@NonNull YouTubePlayer youTubePlayer) {
-                    youTubePlayer.loadVideo(videoId, 0);
+                    youTubePlayer.cueVideo(videoId, 0);
                 }
             });
         } else {
@@ -130,4 +145,55 @@ private String extractYoutubeId(String url) {
     public void showError(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void showSavedSuccessfully() {
+        Toast.makeText(getContext(), "Meal Added Successfully", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showDatePickerForMeal(Meal meal) {
+        if (currentMeal == null) {
+            Toast.makeText(getContext(), "Meal not loaded yet", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog dialog = new DatePickerDialog(
+                requireContext(),
+                R.style.MyDatePickerDialogTheme,
+                (view, y, m, d) -> {
+                    Calendar selected = Calendar.getInstance();
+                    selected.set(y, m, d, 0, 0, 0);
+                    selected.set(Calendar.MILLISECOND, 0);
+                    long selectedDayMillis = selected.getTimeInMillis();
+
+                    WeeklyMealEntity entity = new WeeklyMealEntity(
+                            meal.getIdMeal(),
+                            meal.getStrMeal(),
+                            meal.getStrMealThumb(),
+                            selectedDayMillis
+                    );
+
+                    insertMealToWeeklyPlan(entity);
+                },
+                year, month, day
+        );
+        dialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+        dialog.show();
+    }
+
+    private void insertMealToWeeklyPlan(WeeklyMealEntity entity) {
+        weeklyRepository.insertMeal(entity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        () -> Toast.makeText(requireContext(), "Saved to Weekly Plan", Toast.LENGTH_SHORT).show(),
+                        throwable -> Toast.makeText(requireContext(), "Error: " + throwable.getMessage(), Toast.LENGTH_SHORT).show()
+                );
+    }
+
+
 }
