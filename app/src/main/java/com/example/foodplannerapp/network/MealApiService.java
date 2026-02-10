@@ -3,6 +3,7 @@ package com.example.foodplannerapp.network;
 import com.example.foodplannerapp.model.ListResponse;
 import com.example.foodplannerapp.model.MealsResponse;
 
+import io.reactivex.rxjava3.core.Single;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -16,7 +17,7 @@ public interface MealApiService {
 
     // Get meals by category (Trending / Category meals)
     @GET("filter.php")
-    Call<MealsResponse> getMealsByCategory(
+    Single<MealsResponse> getMealsByCategory(
             @Query("c") String category
     );
 
@@ -27,13 +28,13 @@ public interface MealApiService {
     );
     // Filter by Area
     @GET("filter.php")
-    Call<MealsResponse> getMealsByArea(
+    Single<MealsResponse> getMealsByArea(
             @Query("a") String area
     );
 
     // Filter by Main Ingredient
     @GET("filter.php")
-    Call<MealsResponse> getMealsByIngredient(
+    Single<MealsResponse> getMealsByIngredient(
             @Query("i") String ingredient
     );
 
