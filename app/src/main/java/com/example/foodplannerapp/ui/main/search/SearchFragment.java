@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -61,8 +62,19 @@ public class SearchFragment extends Fragment implements SearchContract.View {
 
     private void setupRecyclerView() {
         rvFilters.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        adapter = new SearchFilterAdapter();
+        adapter = new SearchFilterAdapter(item -> {
+            navigateToFilteredMeals(item);
+        });
         rvFilters.setAdapter(adapter);
+    }
+
+    private void navigateToFilteredMeals(FilterItem item) {
+        Bundle bundle = new Bundle();
+        bundle.putString("filter_type", item.getType().name());
+        bundle.putString("filter_value", item.getName());
+
+        NavHostFragment.findNavController(this)
+                .navigate(R.id.filteredMealsFragment, bundle);
     }
 
     private void setupSearch() {

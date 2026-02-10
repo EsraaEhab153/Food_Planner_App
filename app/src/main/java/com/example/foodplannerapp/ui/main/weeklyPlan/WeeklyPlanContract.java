@@ -16,6 +16,8 @@ public interface WeeklyPlanContract {
         void loadWeeklyMeals();
         void onDateSelected(WeeklyMealEntity mealEntity);
         void deleteMeal(WeeklyMealEntity meal);
+
+        void openMealDetails(WeeklyMealEntity meal);
     }
 }
 

@@ -16,6 +16,34 @@
     </fragment>
 
     <fragment
+        android:id="@+id/filteredMealsFragment"
+        android:name="com.example.foodplannerapp.ui.main.filterdMeal.FilteredMealsFragment"
+        android:label="Filtered Meals">
+
+        <argument
+            android:name="filter_type"
+            app:argType="string"/>
+
+        <argument
+            android:name="filter_value"
+            app:argType="string"/>
+
+        <action
+            android:id="@+id/action_filteredMeals_to_mealDetails"
+            app:destination="@id/mealDetailsFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.foodplannerapp.ui.main.search.SearchFragment">
+
+        <action
+            android:id="@+id/action_searchFragment_to_filteredMealsFragment"
+            app:destination="@id/filteredMealsFragment"/>
+    </fragment>
+
+
+    <fragment
         android:id="@+id/searchMealsFragment"
         android:name="com.example.foodplannerapp.ui.main.search.SearchFragment"
         android:label="Search" />
@@ -28,7 +56,11 @@
     <fragment
         android:id="@+id/weeklyPlanFragment"
         android:name="com.example.foodplannerapp.ui.main.weeklyPlan.WeeklyPlanFragment"
-        android:label="Weekly Plan" />
+        android:label="Weekly Plan" >
+        <action
+            android:id="@+id/action_weeklyPlanFragment_to_mealDetailsFragment"
+            app:destination="@id/mealDetailsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/profileFragment"

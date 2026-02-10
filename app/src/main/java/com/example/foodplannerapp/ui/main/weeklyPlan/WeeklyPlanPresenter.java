@@ -1,8 +1,12 @@
 package com.example.foodplannerapp.ui.main.weeklyPlan;
 
+import android.os.Bundle;
 import android.util.Log;
 
+import androidx.navigation.fragment.NavHostFragment;
+
 import com.example.foodplannerapp.HelperClasses.DateUtils;
+import com.example.foodplannerapp.R;
 import com.example.foodplannerapp.data.weeklyplan.DataSource.local.WeeklyMealEntity;
 import com.example.foodplannerapp.ui.main.weeklyPlan.WeeklyPlanContract.View;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -60,6 +64,10 @@ public class WeeklyPlanPresenter implements WeeklyPlanContract.Presenter {
                         throwable -> Log.e("DELETE", throwable.getMessage())
                 );
     }
+
+    @Override
+    public void openMealDetails(WeeklyMealEntity meal) {
+         }
 
 
     public void clear() {

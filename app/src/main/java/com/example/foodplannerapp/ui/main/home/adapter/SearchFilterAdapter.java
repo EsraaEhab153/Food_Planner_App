@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.foodplannerapp.R;
 import com.example.foodplannerapp.model.FilterItem;
+import com.example.foodplannerapp.ui.main.search.OnFilterClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,13 @@ public class SearchFilterAdapter extends RecyclerView.Adapter<SearchFilterAdapte
 
     private List<FilterItem> fullList = new ArrayList<>();
     private List<FilterItem> filteredList = new ArrayList<>();
+    private OnFilterClickListener listener;
+
+    public SearchFilterAdapter(OnFilterClickListener listener) {
+        this.listener = listener;
+    }
+
+
 
     public void setData(List<FilterItem> items) {
         fullList.clear();
@@ -69,6 +77,11 @@ public class SearchFilterAdapter extends RecyclerView.Adapter<SearchFilterAdapte
         } else {
             holder.imgThumb.setImageResource(R.drawable.moc_meal);
         }
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onFilterClick(item);
+            }
+        });
     }
 
     @Override

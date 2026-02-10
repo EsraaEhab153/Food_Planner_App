@@ -24,10 +24,14 @@ public class WeeklyPlanAdapter extends RecyclerView.Adapter<WeeklyPlanAdapter.Da
     private final String[] dayNames = {"Saturday","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday"};
     private DayMealsAdapter[] dayAdapters = new DayMealsAdapter[7];
     private OnMealDeleteListener deleteListener;
+    private DayMealsAdapter.OnPlanMealClickListener planClickListener;
 
-    public WeeklyPlanAdapter(OnMealDeleteListener deleteListener) {
+    public WeeklyPlanAdapter(OnMealDeleteListener deleteListener,
+                             DayMealsAdapter.OnPlanMealClickListener planClickListener) {
         this.deleteListener = deleteListener;
+        this.planClickListener = planClickListener;
     }
+
 
 
     public void updateData(Map<Integer, List<WeeklyMealEntity>> newMealsByDay) {
@@ -57,7 +61,7 @@ public class WeeklyPlanAdapter extends RecyclerView.Adapter<WeeklyPlanAdapter.Da
         if (meals == null) meals = new ArrayList<>();
 
         if (dayAdapters[position] == null) {
-            dayAdapters[position] = new DayMealsAdapter(meals, deleteListener);
+            dayAdapters[position] = new DayMealsAdapter(meals, deleteListener,planClickListener);
         } else {
             dayAdapters[position].updateData(meals);
         }

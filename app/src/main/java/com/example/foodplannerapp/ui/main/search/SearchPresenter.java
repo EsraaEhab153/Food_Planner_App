@@ -16,6 +16,9 @@ import com.example.foodplannerapp.network.RetrofitClient;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,10 +27,12 @@ public class SearchPresenter implements SearchContract.Presenter {
 
     private SearchContract.View view;
     private MealApiService apiService;
+    private  SearchRepository repo;
 
     public SearchPresenter(SearchContract.View view) {
         this.view = view;
         this.apiService = RetrofitClient.getInstance().create(MealApiService.class);
+        this.repo = new SearchRepository();
     }
 
     @Override
@@ -54,43 +59,44 @@ public class SearchPresenter implements SearchContract.Presenter {
         });
     }
 
+
     @Override
     public void onFilterSelected(FilterType type, String filterValue) {
         view.showLoading();
-        Call<MealsResponse> call;
+
+        Single<MealsResponse> single;
 
         switch (type) {
             case CATEGORY:
-                call = apiService.getMealsByCategory(filterValue);
+                single = apiService.getMealsByCategory(filterValue);
                 break;
             case AREA:
-                call = apiService.getMealsByArea(filterValue);
+                single = apiService.getMealsByArea(filterValue);
                 break;
             case INGREDIENT:
-                call = apiService.getMealsByIngredient(filterValue);
+                single = apiService.getMealsByIngredient(filterValue);
                 break;
             default:
                 return;
         }
 
-        call.enqueue(new Callback<MealsResponse>() {
-            @Override
-            public void onResponse(Call<MealsResponse> call, Response<MealsResponse> response) {
-                view.hideLoading();
-                if (response.isSuccessful() && response.body() != null) {
-                    view.showMeals(response.body().getMeals());
-                } else {
-                    view.showError("No meals found");
-                }
-            }
+        single.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    view.hideLoading();
 
-            @Override
-            public void onFailure(Call<MealsResponse> call, Throwable t) {
-                view.hideLoading();
-                view.showError(t.getMessage());
-            }
-        });
+                    if (response.getMeals() != null && !response.getMeals().isEmpty()) {
+                        view.showMeals(response.getMeals());
+                    } else {
+                        view.showError("No meals found");
+                    }
+
+                }, throwable -> {
+                    view.hideLoading();
+                    view.showError(throwable.getMessage());
+                });
     }
+
 
     @Override
     public void loadFilters(FilterType type) {

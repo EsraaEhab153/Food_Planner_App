@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.foodplannerapp.R;
 import com.example.foodplannerapp.data.weeklyplan.DataSource.local.WeeklyMealEntity;
+import com.example.foodplannerapp.model.Meal;
 import com.example.foodplannerapp.ui.main.weeklyPlan.OnMealDeleteListener;
 import com.google.android.material.imageview.ShapeableImageView;
 
@@ -19,14 +20,22 @@ import java.util.List;
 
 public class DayMealsAdapter extends RecyclerView.Adapter<DayMealsAdapter.MealViewHolder> {
 
+    public interface OnPlanMealClickListener {
+        void onMealClick(WeeklyMealEntity meal);
+    }
     private List<WeeklyMealEntity> meals;
 
     private OnMealDeleteListener listener;
+    private OnPlanMealClickListener mealClickListener;
+
+
+
 
     public DayMealsAdapter(List<WeeklyMealEntity> meals,
-                           OnMealDeleteListener listener) {
+                           OnMealDeleteListener listener,OnPlanMealClickListener mealClickListener) {
         this.meals = meals;
         this.listener = listener;
+        this.mealClickListener = mealClickListener;
     }
 
     @NonNull
@@ -47,6 +56,13 @@ public class DayMealsAdapter extends RecyclerView.Adapter<DayMealsAdapter.MealVi
         Glide.with(holder.imgMeal.getContext())
                 .load(meal.getMealThumb())
                 .into(holder.imgMeal);
+
+        holder.imgMeal.setOnClickListener(
+                v -> {
+                    if (mealClickListener != null) {
+                        mealClickListener.onMealClick(meal);
+                    }
+                });
     }
 
     @Override
