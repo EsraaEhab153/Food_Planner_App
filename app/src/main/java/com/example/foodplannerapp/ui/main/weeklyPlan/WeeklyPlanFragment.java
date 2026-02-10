@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,13 +18,14 @@ import android.widget.Toast;
 import com.example.foodplannerapp.R;
 import com.example.foodplannerapp.data.weeklyplan.DataSource.local.WeeklyMealEntity;
 import com.example.foodplannerapp.model.Meal;
+import com.example.foodplannerapp.ui.main.weeklyPlan.adapter.DayMealsAdapter;
 import com.example.foodplannerapp.ui.main.weeklyPlan.adapter.WeeklyPlanAdapter;
 
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
-public class WeeklyPlanFragment extends Fragment implements WeeklyPlanContract.View, OnMealDeleteListener {
+public class WeeklyPlanFragment extends Fragment implements WeeklyPlanContract.View, OnMealDeleteListener , DayMealsAdapter.OnPlanMealClickListener {
 
     private WeeklyPlanContract.Presenter presenter;
     private Meal selectedMeal;
@@ -40,7 +42,7 @@ public class WeeklyPlanFragment extends Fragment implements WeeklyPlanContract.V
         rvWeeklyPlan.setLayoutManager(new LinearLayoutManager(requireContext()));
 
 
-        adapter = new WeeklyPlanAdapter(this);
+        adapter = new WeeklyPlanAdapter(this,this);
         rvWeeklyPlan.setAdapter(adapter);
 
         presenter = new WeeklyPlanPresenter(this, new WeeklyPlanRepository(requireContext()));
@@ -80,6 +82,15 @@ public class WeeklyPlanFragment extends Fragment implements WeeklyPlanContract.V
     @Override
     public void onDeleteClick(WeeklyMealEntity meal) {
         presenter.deleteMeal(meal);
+    }
+
+    @Override
+    public void onMealClick(WeeklyMealEntity meal) {
+        Bundle bundle = new Bundle();
+        bundle.putString("meal_id", meal.getMealId());
+
+        NavHostFragment.findNavController(this)
+                .navigate(R.id.action_weeklyPlanFragment_to_mealDetailsFragment, bundle);
     }
 
 }

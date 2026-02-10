@@ -56,7 +56,11 @@
     <fragment
         android:id="@+id/weeklyPlanFragment"
         android:name="com.example.foodplannerapp.ui.main.weeklyPlan.WeeklyPlanFragment"
-        android:label="Weekly Plan" />
+        android:label="Weekly Plan" >
+        <action
+            android:id="@+id/action_weeklyPlanFragment_to_mealDetailsFragment"
+            app:destination="@id/mealDetailsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/profileFragment"
